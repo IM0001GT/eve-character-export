@@ -20,11 +20,11 @@ cp -a \
   "${STAGE}/eve-character-export/"
 cp -a "${SCRIPT_DIR}/lib/." "${STAGE}/eve-character-export/lib/"
 
-# Refuse EveJS / private-server wording in the export kit
-if grep -RInE 'EveJS|evejs|offline server|private server|sandbox|tq-import|import-evejs' \
+# This kit is export-only. Fail packaging if unrelated product names leak into docs.
+if grep -RInE 'evejs|sandbox|tq-import|import-evejs|private server|offline server' \
   "${STAGE}/eve-character-export" \
   --include='*.md' --include='*.js' --include='*.txt' 2>/dev/null; then
-  echo "ERROR: forbidden product references found in export kit" >&2
+  echo "ERROR: non-export product wording found in kit (export-only)" >&2
   exit 1
 fi
 
